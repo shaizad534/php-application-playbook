@@ -1,0 +1,24 @@
+---
+# tasks file for ali.php
+- name: installing php
+  yum: name={{ item }} state=present 
+  with_items:
+     - php
+     - php-mysql
+     - mariadb-server
+     - httpd
+     
+- name: installing git
+  yum: name=git state=present 
+# Adding code into git
+#-  git: repo=https://github.com/demoglot/php.git dest=/var/www/html
+
+- name: starting httpd
+  service: name=httpd state=started enabled=yes
+ 
+- name: Disabling selinux
+  selinux: policy=targeted state=permissive
+
+- name: Disabling firewall
+  service: name=firewalld state=stopped
+
